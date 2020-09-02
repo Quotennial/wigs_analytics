@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40">
+<Worksheet ss:Name="Contests_results_20200902">
+<Table>
+<Row>
+<Cell><Data ss:Type="String">Pos</Data></Cell>
+<Cell><Data ss:Type="String">Contest / Player</Data></Cell>
+<Cell><Data ss:Type="String">Distance</Data></Cell>
+</Row>
+</Table>
+</Worksheet>
+</Workbook>
