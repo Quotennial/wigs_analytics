@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1599466653827.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "361229768",
+    "id" : "674C647A",
+    "lastKnownWriteTime" : 1599466737,
+    "last_content_update" : 1599466737740,
+    "path" : "~/Documents/GitHub Repo/wigs_analytics/src/r/player_detail.R",
+    "project_path" : "src/r/player_detail.R",
+    "properties" : {
+        "cursorPosition" : "6,0",
+        "scrollLine" : "0",
+        "tempName" : "Untitled2"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

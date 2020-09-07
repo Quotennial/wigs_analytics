@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1599466645581.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2686177460",
+    "id" : "E90014EC",
+    "lastKnownWriteTime" : 1599466705,
+    "last_content_update" : 1599466705639,
+    "path" : "~/Documents/GitHub Repo/wigs_analytics/src/r/00_header.R",
+    "project_path" : "src/r/00_header.R",
+    "properties" : {
+        "cursorPosition" : "7,16",
+        "scrollLine" : "0",
+        "tempName" : "Untitled2"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
