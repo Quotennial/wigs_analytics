@@ -29,7 +29,8 @@ get_player_scorecards = function(file_path, course_detail, player_detail){
     ungroup() %>%
     left_join(
       player_detail
-    )
+    ) %>%
+    distinct()
   
   return(player_scorecards)
   

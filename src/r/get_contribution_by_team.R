@@ -1,5 +1,5 @@
 
-get_contribution_by_team = function(match_scoring){
+get_contribution_by_team = function(match_scoring, match_format){
   
   contribution_by_team = match_scoring %>%
     drop_na() %>%
@@ -7,7 +7,8 @@ get_contribution_by_team = function(match_scoring){
       hole_score_to_par = hole_score-hole_par,
       hole_score_nett_to_par = hole_score_nett-hole_par,
       contribution = case_when(
-        hole_score_nett == team_hole_score_nett ~ 1,
+        hole_score_nett == team_hole_score_nett & hole_won == TRUE ~ 1,
+        hole_score_nett == team_hole_score_nett & hole_won == FALSE ~ 0.5,
         hole_score_nett != team_hole_score_nett ~ 0
       )
     ) %>%

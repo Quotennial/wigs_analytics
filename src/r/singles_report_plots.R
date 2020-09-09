@@ -9,7 +9,6 @@ source("src/r/get_player_detail.R")
 source("src/r/get_player_scorecards.R")
 source("src/r/get_match_scoring.R")
 source("src/r/get_scoring_by_team.R")
-source("src/r/get_contribution_by_team.R")
 source("src/r/get_course_summary.R")
 source("src/r/get_point_scoring_by_hole.R")
 source("src/r/get_point_scoring_by_group.R")
@@ -21,14 +20,6 @@ player_teams = read.csv("Data/raw/wigs_2020/player_teams.csv") %>%
 
 #--- Parse data into useful format
 
-scorecards_file_path = "Data/raw/wigs_2020/R1/Scorecards_20200902.xlsx"
-player_list_file_path = "Data/raw/wigs_2020/R1/Alphabetical_List_20200902.xlsx"
-pairings_list_file_path = "Data/raw/wigs_2020/R1/Pairings_and_Starting_Times_20200902.xlsx"
-
-scorecards_file_path = "Data/raw/wigs_2020/R2/Scorecards_20200908.xlsx"
-player_list_file_path = "Data/raw/wigs_2020/R2/Alphabetical_List_20200908.xlsx"
-pairings_list_file_path = "Data/raw/wigs_2020/R2/Pairings_and_Starting_Times_20200908.xlsx"
-
 scorecards_file_path = "Data/raw/wigs_2020/R3/Scorecards_20200908.xlsx"
 player_list_file_path = "Data/raw/wigs_2020/R3/Alphabetical_List_20200908.xlsx"
 pairings_list_file_path = "Data/raw/wigs_2020/R3/Pairings_and_Starting_Times_20200908.xlsx"
@@ -36,7 +27,7 @@ pairings_list_file_path = "Data/raw/wigs_2020/R3/Pairings_and_Starting_Times_202
 
 course_detail = get_course_detail(
   file_path = scorecards_file_path
-  )
+)
 
 player_detail = get_player_detail(
   player_file_path = player_list_file_path,
@@ -63,10 +54,6 @@ scoring_by_team = get_scoring_by_team(
   match_format = "singles"
 )
 
-contribution_by_team = get_contribution_by_team(
-  match_scoring = match_scoring
-)
-
 scoring_by_team$team_name = factor(scoring_by_team$team_name, levels = rev(scoring_by_team$team_name[order(scoring_by_team$team_score_nett_to_par)]))
 
 ggplot(scoring_by_team, aes(team_name, team_score_nett_to_par, fill = team_id))+
@@ -77,19 +64,6 @@ ggplot(scoring_by_team, aes(team_name, team_score_nett_to_par, fill = team_id))+
   scale_y_reverse()+
   theme_wigs_night()+
   theme(legend.position = "none")
-
-contribution_by_team$player = factor(contribution_by_team$player, levels = rev(contribution_by_team$player[order(contribution_by_team$score_nett_to_par)]))
-
-ggplot(contribution_by_team, aes(player, score_nett_to_par, fill = team_id))+
-  geom_hline(yintercept = 0, linetype = "dashed", colour = "white")+
-  geom_bar(stat = "identity")+
-  scale_fill_manual(values = c("royalblue", "white"))+
-  labs(y = "Score (to par)", x = "")+
-  coord_flip()+
-  scale_y_reverse()+
-  theme_wigs_night()+
-  theme(legend.position = "none")
-
 
 #--- Birdies 
 
@@ -103,35 +77,6 @@ ggplot(scoring_by_team, aes(team_name, bob_nett, fill = team_id))+
   scale_y_continuous(breaks = seq(0, 10, 2))+
   theme_wigs_night()+
   theme(legend.position = "none")
-
-contribution_by_team$player = factor(contribution_by_team$player, levels = contribution_by_team$player[order(contribution_by_team$bob_nett)])
-
-ggplot(contribution_by_team, aes(player, bob_nett, fill = team_id))+
-  geom_bar(stat = "identity")+
-  scale_fill_manual(values = c("royalblue", "white"))+
-  labs(y = "Birdies or Better", x = "")+
-  coord_flip()+
-  theme_wigs_night()+
-  theme(legend.position = "none")
-
-
-#--- Player Contribution 
-
-contribution_by_team$team_name = factor(contribution_by_team$team_name, levels = unique(contribution_by_team$team_name[order(contribution_by_team$team_id)]))
-
-ggplot(contribution_by_team, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=min_max)) +
-  facet_wrap(~team_name, nrow = 2)+
-  geom_rect() +
-  scale_fill_manual(values = c("#37b36b", "firebrick3"))+
-  scale_colour_manual(values = c("#37b36b", "firebrick3"))+
-  coord_polar(theta="y") +
-  xlim(c(-1, 4)) +
-  theme_wigs_night()+
-  theme(legend.position = "none",
-        axis.text = element_blank(),
-        axis.title = element_blank(),
-        strip.text = element_text(size = rel(2)))
-
 
 #--- Course Summary 
 
@@ -182,7 +127,7 @@ ggplot(point_scoring_by_hole, aes(x = as.factor(hole_no), y = cumsum_team_points
   theme(legend.position = "none")
 
 ggplot(point_scoring_by_group, aes(x = as.factor(hole_no), y = match_score_plot, fill = lead_team))+
-  facet_wrap(~group_id)+
+  facet_wrap(~group_id, nrow = 4)+
   geom_hline(yintercept = 0, linetype = "dashed", colour = "white")+
   geom_bar(stat = "identity", alpha = 0.9)+
   scale_fill_manual(values = c("royalblue", "white"))+

@@ -12,7 +12,7 @@ get_point_scoring_by_hole = function(match_scoring){
     ) %>%
     group_by(hole_no, team_id) %>%
     dplyr::summarise(
-      team_points = sum(hole_points)
+      team_points = sum(hole_points, na.rm = T)
     ) %>%
     group_by(team_id) %>%
     arrange(hole_no) %>%

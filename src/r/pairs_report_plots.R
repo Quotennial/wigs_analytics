@@ -21,18 +21,9 @@ player_teams = read.csv("Data/raw/wigs_2020/player_teams.csv") %>%
 
 #--- Parse data into useful format
 
-scorecards_file_path = "Data/raw/wigs_2020/R1/Scorecards_20200902.xlsx"
-player_list_file_path = "Data/raw/wigs_2020/R1/Alphabetical_List_20200902.xlsx"
-pairings_list_file_path = "Data/raw/wigs_2020/R1/Pairings_and_Starting_Times_20200902.xlsx"
-
 scorecards_file_path = "Data/raw/wigs_2020/R2/Scorecards_20200908.xlsx"
 player_list_file_path = "Data/raw/wigs_2020/R2/Alphabetical_List_20200908.xlsx"
 pairings_list_file_path = "Data/raw/wigs_2020/R2/Pairings_and_Starting_Times_20200908.xlsx"
-
-scorecards_file_path = "Data/raw/wigs_2020/R3/Scorecards_20200908.xlsx"
-player_list_file_path = "Data/raw/wigs_2020/R3/Alphabetical_List_20200908.xlsx"
-pairings_list_file_path = "Data/raw/wigs_2020/R3/Pairings_and_Starting_Times_20200908.xlsx"
-
 
 course_detail = get_course_detail(
   file_path = scorecards_file_path
@@ -42,7 +33,7 @@ player_detail = get_player_detail(
   player_file_path = player_list_file_path,
   pairings_file_path = pairings_list_file_path,
   player_teams = player_teams,
-  match_format = "singles"
+  match_format = "pairs"
 )
 
 player_scorecards = get_player_scorecards(
@@ -60,7 +51,7 @@ match_scoring = get_match_scoring(
 
 scoring_by_team = get_scoring_by_team(
   match_scoring = match_scoring,
-  match_format = "singles"
+  match_format = "pairs"
 )
 
 contribution_by_team = get_contribution_by_team(
