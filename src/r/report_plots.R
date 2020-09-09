@@ -1,93 +1,58 @@
 #--- Report plots
 
-#--- Source required packages & data tables
+#--- Source required packages & functions
 
 source("src/r/00_header.R")
 source("src/r/00_plot_themes.R")
-source("src/r/course_detail.R")
-source("src/r/player_detail.R")
-source("src/r/player_scorecards.R")
-source("src/r/match_scoring.R")
+source("src/r/get_course_detail.R")
+source("src/r/get_player_detail.R")
+source("src/r/get_player_scorecards.R")
+source("src/r/get_match_scoring.R")
+source("src/r/get_scoring_by_team.R")
+source("src/r/get_contribution_by_team.R")
+source("src/r/get_course_summary.R")
+source("src/r/get_point_scoring_by_hole.R")
+source("src/r/get_point_scoring_by_group.R")
 
-write.csv(course_detail, "src/r/tables/course_detail.csv")
-write.csv(player_detail, "src/r/tables/player_detail.csv")
-write.csv(player_scorecards, "src/r/tables/player_scorecards.csv")
-write.csv(match_scoring, "src/r/tables/match_scoring.csv")
+#--- Parse data into useful format
+
+scorecards_file_path = "Data/raw/wigs_2020/R1/Scorecards_20200902.xlsx"
+player_list_file_path = "Data/raw/wigs_2020/R1/Alphabetical_List_20200902.xlsx"
+pairings_list_file_path = "Data/raw/wigs_2020/R1/Pairings_and_Starting_Times_20200902.xlsx"
+
+scorecards_file_path = "Data/raw/wigs_2020/R2/Scorecards_20200908.xlsx"
+player_list_file_path = "Data/raw/wigs_2020/R2/Alphabetical_List_20200908.xlsx"
+pairings_list_file_path = "Data/raw/wigs_2020/R2/Pairings_and_Starting_Times_20200908.xlsx"
+
+course_detail = get_course_detail(
+  file_path = scorecards_file_path
+  )
+
+player_detail = get_player_detail(
+  player_file_path = player_list_file_path,
+  pairings_file_path = pairings_list_file_path
+)
+
+player_scorecards = get_player_scorecards(
+  file_path = scorecards_file_path,
+  course_detail = course_detail,
+  player_detail = player_detail
+)
+
+match_scoring = get_match_scoring(
+  player_scorecards = player_scorecards
+)
+
 
 #--- Scoring 
 
-scoring_by_team = match_scoring %>%
-  drop_na() %>%
-  group_by(group_id, team_id, player) %>%
-  dplyr::mutate(
-    player_last_name = strsplit(player, " ")[[1]][2]
-  ) %>%
-  group_by(group_id, team_id) %>%
-  dplyr::mutate(
-    team_name = paste(player_last_name[1], player_last_name[2], sep = "/")
-  ) %>%
-  group_by(team_name, team_id, hole_no, hole_par) %>%
-  dplyr::summarise(
-    team_hole_score_nett = min(team_hole_score_nett)
-  ) %>%
-  ungroup() %>%
-  dplyr::mutate(
-    team_hole_score_nett_to_par = team_hole_score_nett-hole_par
-  ) %>%
-  group_by(team_name, team_id) %>%
-  dplyr::summarise(
-    holes_played = n(),
-    bob_nett = sum(team_hole_score_nett_to_par <= -1),
-    bow_nett = sum(team_hole_score_nett_to_par >= 1),
-    team_score_nett = sum(team_hole_score_nett),
-    team_score_nett_to_par = sum(team_hole_score_nett_to_par)
-  ) 
+scoring_by_team = get_scoring_by_team(
+  match_scoring = match_scoring
+)
 
-contribution_by_team = match_scoring %>%
-  drop_na() %>%
-  dplyr::mutate(
-    hole_score_to_par = hole_score-hole_par,
-    hole_score_nett_to_par = hole_score_nett-hole_par,
-    contribution = case_when(
-      hole_score_nett == team_hole_score_nett ~ 1,
-      hole_score_nett != team_hole_score_nett ~ 0
-    )
-  ) %>%
-  group_by(group_id, team_id, player) %>%
-  dplyr::mutate(
-    player_last_name = strsplit(player, " ")[[1]][2]
-  ) %>%
-  group_by(group_id, team_id) %>%
-  dplyr::mutate(
-    team_name = paste(player_last_name[1], player_last_name[2], sep = "/")
-  ) %>%
-  group_by(team_name, team_id, player) %>%
-  dplyr::summarise(
-    holes_played = n(),
-    holes_contributed = sum(contribution),
-    bob_nett = sum(hole_score_nett_to_par <= -1),
-    bow_nett = sum(hole_score_nett_to_par >= 1),
-    score = sum(hole_score),
-    score_to_par = sum(hole_score_to_par),
-    score_nett = sum(hole_score_nett),
-    score_nett_to_par = sum(hole_score_nett_to_par)
-  ) %>%
-  group_by(team_name, team_id) %>%
-  dplyr::mutate(
-    total_holes = sum(holes_contributed)
-  ) %>%
-  ungroup() %>%
-  dplyr::mutate(
-    holes_contributed_perc = holes_contributed/total_holes
-  ) %>%
-  group_by(team_name, team_id) %>%
-  arrange(holes_contributed_perc) %>%
-  dplyr::mutate(
-    ymin = c(0, min(holes_contributed_perc)),
-    ymax = c(min(holes_contributed_perc), 1),
-    min_max = c("min", "max")
-  ) %>%
-  ungroup()
+contribution_by_team = get_contribution_by_team(
+  match_scoring = match_scoring
+)
 
 scoring_by_team$team_name = factor(scoring_by_team$team_name, levels = rev(scoring_by_team$team_name[order(scoring_by_team$team_score_nett_to_par)]))
 
@@ -157,19 +122,9 @@ ggplot(contribution_by_team, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=min_
 
 #--- Course Summary 
 
-course_summary = match_scoring %>%
-  drop_na() %>%
-  dplyr::mutate(
-    hole_score_to_par = hole_score-hole_par,
-    hole_score_nett_to_par = hole_score_nett-hole_par
-  ) %>%
-  group_by(hole_no, hole_par) %>%
-  dplyr::summarise(
-    avg_nett_score = mean(hole_score_nett_to_par, na.rm = T),
-    bob = mean(hole_score_nett_to_par <= -1),
-    bow = mean(hole_score_nett_to_par >= 1)
-  ) %>%
-  ungroup()
+course_summary = get_course_summary(
+  match_scoring = match_scoring
+)
 
 ggplot(course_summary, aes(as.factor(hole_no), avg_nett_score, colour = avg_nett_score))+
   geom_hline(yintercept = 0, linetype = "dashed", colour = "white")+
@@ -182,68 +137,13 @@ ggplot(course_summary, aes(as.factor(hole_no), avg_nett_score, colour = avg_nett
 
 #--- Holes Won 
 
-point_scoring_by_hole = match_scoring %>%
-  group_by(hole_no, group_id, team_id) %>%
-  dplyr::summarise(
-    hole_points = case_when(
-      max(hole_won) == TRUE ~ 1,
-      max(tie) == TRUE ~ 0,
-      max(hole_won) == FALSE ~ 0,
-    )
-  ) %>%
-  group_by(hole_no, team_id) %>%
-  dplyr::summarise(
-    team_points = sum(hole_points)
-  ) %>%
-  group_by(team_id) %>%
-  arrange(hole_no) %>%
-  dplyr::mutate(
-    cumsum_team_points = cumsum(team_points)
-  )
+point_scoring_by_hole = get_point_scoring_by_hole(
+  match_scoring = match_scoring
+)
 
-point_scoring_by_group = match_scoring %>%
-  group_by(hole_no, group_id, team_id) %>%
-  dplyr::summarise(
-    hole_points = case_when(
-      max(hole_won) == TRUE ~ 1,
-      max(tie) == TRUE ~ 0,
-      max(hole_won) == FALSE ~ 0,
-    )
-  ) %>%
-  group_by(group_id, team_id) %>%
-  arrange(hole_no) %>%
-  dplyr::mutate(
-    cumsum_holes = cumsum(hole_points)
-  ) %>%
-  group_by(group_id, hole_no) %>%
-  dplyr::summarise(
-    match_score = max(cumsum_holes)-min(cumsum_holes),
-    lead_team = ifelse(
-      match_score == 0,
-      NA,
-      team_id[cumsum_holes == max(cumsum_holes)]
-    )
-  ) %>%
-  ungroup() %>%
-  dplyr::mutate(
-    group_id = paste0("Match ", group_id),
-    match_score_plot = case_when(
-      lead_team == "Blue" ~ match_score*-1, 
-      lead_team == "White" ~ match_score
-    ),
-    holes_remaining = 18-hole_no,
-    match_won = case_when(
-      match_score > holes_remaining ~ TRUE,
-      match_score <= holes_remaining ~ FALSE,
-    )
-  ) %>%
-  group_by(group_id) %>%
-  arrange(hole_no) %>%
-  dplyr::mutate(
-    match_won = lag(match_won)
-  ) %>%
-  ungroup() %>%
-  dplyr::filter(match_won == FALSE)
+point_scoring_by_group = get_point_scoring_by_group(
+  match_scoring = match_scoring
+)
 
 ggplot(point_scoring_by_hole, aes(x = as.factor(hole_no), y = team_points, fill = team_id))+
   geom_bar(stat = "identity")+
@@ -274,7 +174,7 @@ ggplot(point_scoring_by_group, aes(x = as.factor(hole_no), y = match_score_plot,
   geom_bar(stat = "identity", alpha = 0.9)+
   scale_fill_manual(values = c("royalblue", "white"))+
   scale_y_continuous(breaks = seq(-10, 10, 2), labels = abs(seq(-10, 10, 2)))+
-  labs(x = "Hole No.", y = "Holes Won")+
+  labs(x = "Hole No.", y = "Lead (Holes)")+
   theme_wigs_night()+
   theme(legend.position = "none")
 
