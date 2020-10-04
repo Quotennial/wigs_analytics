@@ -29,6 +29,8 @@ course_summary = list()
 point_scoring_by_hole = list()
 point_scoring_by_group = list()
 
+#--- Loop to read & parse data files
+
 for(i in 1:length(json)){
   
   round_no_desc = json$rounds[[i]]$folder
@@ -118,6 +120,8 @@ for(i in 1:length(json)){
     )
   
 }
+
+#--- Joining all rounds 
 
 all_course_detail = rbindlist(course_detail, use.names=TRUE)
 all_player_detail = rbindlist(player_detail, use.names=TRUE)
