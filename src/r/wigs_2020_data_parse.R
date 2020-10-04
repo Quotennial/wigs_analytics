@@ -62,7 +62,8 @@ for(i in 1:length(json)){
     match_format = match_format
   ) %>%
     dplyr::mutate(
-      round = round_no_desc
+      round = round_no_desc,
+      match_format 
     )
   
   player_scorecards[[i]] = get_player_scorecards(
@@ -71,7 +72,8 @@ for(i in 1:length(json)){
     player_detail = player_detail[[i]]
   ) %>%
     dplyr::mutate(
-      round = round_no_desc
+      round = round_no_desc,
+      match_format
     )
   
   match_scoring[[i]] = get_match_scoring(
@@ -79,7 +81,8 @@ for(i in 1:length(json)){
     match_format = match_format
   ) %>%
     dplyr::mutate(
-      round = round_no_desc
+      round = round_no_desc,
+      match_format
     )
   
   scoring_by_team[[i]] = get_scoring_by_team(
@@ -87,7 +90,8 @@ for(i in 1:length(json)){
     match_format = match_format
   ) %>%
     dplyr::mutate(
-      round = round_no_desc
+      round = round_no_desc,
+      match_format
     )
   
   contribution_by_team[[i]] = get_contribution_by_team(
@@ -95,28 +99,32 @@ for(i in 1:length(json)){
     match_format = match_format
   ) %>%
     dplyr::mutate(
-      round = round_no_desc
+      round = round_no_desc,
+      match_format
     )
   
   course_summary[[i]] = get_course_summary(
     match_scoring = match_scoring[[i]]
   ) %>%
     dplyr::mutate(
-      round = round_no_desc
+      round = round_no_desc,
+      match_format
     )
   
   point_scoring_by_hole[[i]] = get_point_scoring_by_hole(
     match_scoring = match_scoring[[i]]
   ) %>%
     dplyr::mutate(
-      round = round_no_desc
+      round = round_no_desc,
+      match_format
     )
   
   point_scoring_by_group[[i]] = get_point_scoring_by_group(
     match_scoring = match_scoring[[i]]
   ) %>%
     dplyr::mutate(
-      round = round_no_desc
+      round = round_no_desc,
+      match_format
     )
   
 }
@@ -134,7 +142,7 @@ all_point_scoring_by_hole = rbindlist(point_scoring_by_hole, use.names=TRUE)
 all_point_scoring_by_group = rbindlist(point_scoring_by_group, use.names=TRUE)
 
 all_final_match_scores = all_match_scoring %>%
-  group_by(team_name, group_id, team_id, round, hole_no) %>%
+  group_by(team_name, group_id, team_id, round, match_format, hole_no) %>%
   dplyr::summarise(
     hole_points = case_when(
       max(hole_won) == TRUE ~ 1,
@@ -142,7 +150,7 @@ all_final_match_scores = all_match_scoring %>%
       max(hole_won) == FALSE & max(tie) == FALSE ~ -1
     )
   ) %>%
-  group_by(team_name, group_id, team_id, round) %>%
+  group_by(team_name, group_id, team_id, round, match_format) %>%
   arrange(hole_no) %>%
   dplyr::mutate(
     match_points = cumsum(hole_points)
@@ -156,7 +164,7 @@ all_final_match_scores = all_match_scoring %>%
       FALSE
     )
   ) %>%
-  group_by(team_name, group_id, team_id, round) %>%
+  group_by(team_name, group_id, team_id, round, match_format) %>%
   dplyr::mutate(
     first_match_end = max(remaining_holes[match_end == TRUE])
   ) %>%
@@ -174,7 +182,7 @@ all_final_match_scores = all_match_scoring %>%
       first_match_end > 0 ~ paste0(abs(match_points), " & ", first_match_end)
     )
   ) %>%
-  dplyr::select(team_name, group_id, team_id, round, match_result, match_score)
+  dplyr::select(team_name, group_id, team_id, round, match_format, match_result, match_score)
 
 
 all_contribution_by_player = all_contribution_by_team %>%
