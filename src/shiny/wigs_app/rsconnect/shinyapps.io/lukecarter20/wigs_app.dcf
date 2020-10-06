@@ -1,0 +1,12 @@
+name: wigs_app
+title: wigs_app
+username:
+account: lukecarter20
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2953140
+bundleId: 3708506
+url: https://lukecarter20.shinyapps.io/wigs_app/
+when: 1601990555.27328
+asMultiple: FALSE
+asStatic: FALSE

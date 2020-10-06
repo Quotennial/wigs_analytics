@@ -1,0 +1,27 @@
+{
+  "name": "WIGS Tour 2020",
+  "filename": "wigs_2020",
+  "rounds": [
+    {
+      "course": "Lakes Course (par 72)",
+      "date": "2020-08-29T14:22Z",
+      "gamebookcode": 20200902,
+      "folder": "R1",
+      "match_format": "pairs"
+    },
+    {
+      "course": "Wales National (par 73)",
+      "date": "2020-08-30T12:22Z",
+       "gamebookcode": 20200908,
+       "folder": "R2",
+       "match_format": "pairs"
+    },
+    {
+      "course": "Lakes Course (par 72)",
+      "date": "2020-08-31T09:22Z",
+      "gamebookcode": 20200908,
+      "folder": "R3",
+      "match_format": "singles"
+    }
+  ]
+}

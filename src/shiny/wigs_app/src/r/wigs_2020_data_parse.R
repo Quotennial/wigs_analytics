@@ -214,9 +214,10 @@ all_contribution_by_player = all_contribution_by_team %>%
       0.5
     )
   ) %>%
-  group_by(player) %>%
+  group_by(player, team_id) %>%
   dplyr::summarise(
     matches_played = n(),
+    points_won = sum(match_points),
     expected_contribution = sum(expected_contribution),
     all_contribution = sum(match_contribution)
   ) %>%
@@ -268,21 +269,6 @@ all_hole_scoring_by_team = all_match_scoring %>%
     )
   )
 
-
-ggplot(all_hole_scoring_by_team %>% dplyr::filter(round == "R1"), aes(hole_no, cumsum_nett_score_to_par, colour = team_id))+
-  facet_wrap(~match_id)+
-  geom_hline(yintercept = 0, linetype = "dashed", colour = "grey80")+
-  geom_point(stat = "identity", size = 5)+
-  geom_line()+
-  scale_x_continuous(breaks = seq(3, 18, 3))+
-  scale_colour_manual(values = c("royalblue", "white"))+
-  labs(x = "Hole No.", y = "Team Nett Score (to Par)")+
-  theme_wigs_night()+
-  theme(
-    legend.position = "none"
-  )
-
-
 all_hole_sg_by_player = all_match_scoring %>%
   dplyr::mutate(
     hole_score_nett_to_par = hole_score_nett-hole_par
@@ -327,21 +313,8 @@ all_round_sg_by_player = all_match_scoring %>%
   ungroup() %>%
   dplyr::mutate(
     sg = field_avg-nett_score_to_par
-  ) %>% 
-  dplyr::filter(round == "R1")
-
-all_round_sg_by_player$player = factor(all_round_sg_by_player$player, levels = unique(all_round_sg_by_player$player[order(all_round_sg_by_player$sg)]))
-
-ggplot(all_round_sg_by_player %>% dplyr::filter(round == "R1"), aes(player, sg, fill = team_id))+
-  geom_hline(yintercept = 0, linetype = "dashed", colour = "grey80")+
-  geom_bar(stat = "identity", size = 5)+
-  scale_fill_manual(values = c("royalblue", "white"))+
-  labs(x = "", y = "Strokes Gained")+
-  coord_flip()+
-  theme_wigs_night()+
-  theme(
-    legend.position = "none"
   )
+
 
 all_player_consistency = all_hole_sg_by_player %>%
   group_by(player, team_id) %>%
@@ -351,17 +324,5 @@ all_player_consistency = all_hole_sg_by_player %>%
     consistency_score = abs((0.2-std_err_sg)*100)
   ) %>%
   ungroup()
-
-all_player_consistency$player = factor(all_player_consistency$player, levels = unique(all_player_consistency$player[order(all_player_consistency$consistency_score)]))
-
-ggplot(all_player_consistency, aes(player, consistency_score, fill = team_id))+
-  geom_bar(stat = "identity", size = 5)+
-  scale_fill_manual(values = c("royalblue", "white"))+
-  labs(x = "", y = "Consistency Score")+
-  coord_flip()+
-  theme_wigs_night()+
-  theme(
-    legend.position = "none"
-  )
 
 
