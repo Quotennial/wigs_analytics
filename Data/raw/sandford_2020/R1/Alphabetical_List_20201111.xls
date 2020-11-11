@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40">
+<Worksheet ss:Name="Alphabetical_List_20201111">
+<Table>
+<Row>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String">Player</Data></Cell>
+<Cell><Data ss:Type="String">HCP</Data></Cell>
+<Cell><Data ss:Type="String">Tee Time</Data></Cell>
+<Cell><Data ss:Type="String">Tee</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+<Cell><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">1</Data></Cell>
+<Cell><Data ss:Type="String">Bradbury, Chris</Data></Cell>
+<Cell><Data ss:Type="String">24.0</Data></Cell>
+<Cell><Data ss:Type="String">02:10 PM</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">2</Data></Cell>
+<Cell><Data ss:Type="String">Carnell, Matt</Data></Cell>
+<Cell><Data ss:Type="String">28.0</Data></Cell>
+<Cell><Data ss:Type="String">02:20 PM</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">3</Data></Cell>
+<Cell><Data ss:Type="String">Carter, Luke</Data></Cell>
+<Cell><Data ss:Type="String">1.3</Data></Cell>
+<Cell><Data ss:Type="String">02:20 PM</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">4</Data></Cell>
+<Cell><Data ss:Type="String">Devaney, Eamon</Data></Cell>
+<Cell><Data ss:Type="String">12.0</Data></Cell>
+<Cell><Data ss:Type="String">02:10 PM</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">5</Data></Cell>
+<Cell><Data ss:Type="String">Forrest, MJ</Data></Cell>
+<Cell><Data ss:Type="String">10.0</Data></Cell>
+<Cell><Data ss:Type="String">02:10 PM</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">6</Data></Cell>
+<Cell><Data ss:Type="String">McCulloch, Callum</Data></Cell>
+<Cell><Data ss:Type="String">17.0</Data></Cell>
+<Cell><Data ss:Type="String">02:00 PM</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">7</Data></Cell>
+<Cell><Data ss:Type="String">Ratcliffe, Kieran</Data></Cell>
+<Cell><Data ss:Type="String">6.0</Data></Cell>
+<Cell><Data ss:Type="String">02:20 PM</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">8</Data></Cell>
+<Cell><Data ss:Type="String">Reeves, Corrie</Data></Cell>
+<Cell><Data ss:Type="String">22.0</Data></Cell>
+<Cell><Data ss:Type="String">02:10 PM</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">9</Data></Cell>
+<Cell><Data ss:Type="String">Sohoye, Haaris</Data></Cell>
+<Cell><Data ss:Type="String">24.0</Data></Cell>
+<Cell><Data ss:Type="String">02:00 PM</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">10</Data></Cell>
+<Cell><Data ss:Type="String">Sohoye, Yusuf</Data></Cell>
+<Cell><Data ss:Type="String">18.3</Data></Cell>
+<Cell><Data ss:Type="String">02:00 PM</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">11</Data></Cell>
+<Cell><Data ss:Type="String">Spencer, Will</Data></Cell>
+<Cell><Data ss:Type="String">8.0</Data></Cell>
+<Cell><Data ss:Type="String">02:20 PM</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+</Row>
+<Row>
+<Cell><Data ss:Type="String">12</Data></Cell>
+<Cell><Data ss:Type="String">Tembey, Matt</Data></Cell>
+<Cell><Data ss:Type="String">24.0</Data></Cell>
+<Cell><Data ss:Type="String">02:00 PM</Data></Cell>
+<Cell><Data ss:Type="String">1</Data></Cell>
+</Row>
+</Table>
+</Worksheet>
+</Workbook>
